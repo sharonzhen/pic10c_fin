@@ -1,5 +1,5 @@
-# Minesweeper with a bot
-so I can stop wasting time trying to beat my record
+# Board-less Minesweeper with a bot
+so I can stop wasting time trying to beat my record manually...
 also, for PIC10C W'19 with Professor R. Salazar
 # Layout
 The main menu page provides
@@ -15,19 +15,25 @@ The main menu page provides
 
 # Inside 'begin game'
 
-  - a
-  - b
+    - there will be a timer that starts once the first block is opened
+    - there will be a countdown of remaining mines based on the # flags
+    - there will be an option for bots
+    - create an object Block that is
+        => opened or closed
+        => has a mine or is empty or has a number (1 - 8)
+        => has pointers to all 8 blocks around it (and access to their states)
+        => has an i,j index, as a member variable
+    - on first press, generate mines, then according to this, generate numbers
+    - there would be no board since I can just rely on the index of each block
 
-> use this to write in markdown
-> i got this from a template
-
+I feel like an intuitive implementation would be to create a 2D array of Board objects, but I'd like to see if this implementation works.
 
 # References
 
-I used [this video] to learn more about the UI for minesweeper, and various [documentations] to figure out how QGraphics* libraries work. This markdown README was written using the template provided by [dillinger.io].
+I used [this video] to learn more about the UI for minesweeper, and various [documentations] to figure out how QGraphics* libraries work. This markdown README was written using the template provided by [dillinger.io]. Additionally, the rules are based on the rules defined on the [minesweeper website] that I play.
 
 
-#### ToDos
+# ToDos
 
  - write the bot, so this is a bit incomplete. will *definitely* get this done by friday morning though.
 
@@ -37,3 +43,5 @@ I used [this video] to learn more about the UI for minesweeper, and various [doc
    [this video]: <https://www.youtube.com/watch?v=T19h2nzkCzg>
    [documentations]: <https://doc.qt.io/>
    [dillinger.io]: <https://dillinger.io/>
+   [minesweeper website]: <http://minesweeperonline.com/#150>
+
