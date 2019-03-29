@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QIcon>
+#include <QVBoxLayout>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -63,7 +64,9 @@ private slots:
 private:
     std::vector<std::vector<Block*>> block_matrix;
     QGridLayout *matrix;
+    QVBoxLayout *general_layout;
     QWidget *minesweeper_block;
+    QWidget *minesweeper_parent;
     QLCDNumber *timer;
     QLCDNumber *mines_left;
 

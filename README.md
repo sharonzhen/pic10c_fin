@@ -33,7 +33,7 @@ I feel like an intuitive implementation would be to create a 2D array of Board o
 
 I used [this video] to learn more about the UI for minesweeper, and various [documentations] to figure out how QGraphics* libraries work. This markdown README was written using the template provided by [dillinger.io]. Additionally, the rules are based on the rules defined on the [minesweeper website] that I play.
 I looked up the source code of [QPushButton] so that the mines can be buttons with the properties I want. I'd like to [maybe reimplement the abstract button class] but maybe I don't need to??
-Also I got [icons] from wikipedia and google.
+Also I got [icons] from wikipedia and google, and learned to set [fixed button size] from stackoverflow.
 
 # ToDos
 
@@ -52,3 +52,4 @@ Also I got [icons] from wikipedia and google.
    [maybe reimplement the abstract button class]: <https://cep.xray.aps.anl.gov/software/qt4-x11-4.2.2-browser/d4/d5f/class_q_abstract_button.html>
    [icons]: <https://commons.wikimedia.org/wiki/Category:Minesweeper>
    [QIcon]: <https://code.woboq.org/qt5/qtbase/src/gui/image/qicon.cpp.html>
+   [fixed button size]: <https://stackoverflow.com/questions/47226092/how-to-set-qpushbutton-size-in-qgridlayout-in-qt>

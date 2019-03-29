@@ -24,6 +24,10 @@ Block::Block(QWidget *parent, std::size_t label):
     f.addFile("f.png", QSize(15,15));
     g.addFile("g.png", QSize(15,15));
     h.addFile("h.png", QSize(15,15));
+    // this->setIcon(QIcon("/Users/Sharn/minesweeper/bomb.png"));
+
+    this->setIconSize(QSize(30,30));
+    this->update();
 
 }
 
@@ -36,11 +40,31 @@ minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::siz
     QDialog(parent), m_height(height), m_width(width), m_mines(mines), block_matrix(height, std::vector<Block*>(width, nullptr))
 {
     srand((unsigned)time(0));
-    minesweeper_block = new QWidget();
+    minesweeper_parent = new QWidget();
+    minesweeper_block = new QWidget(minesweeper_parent);
+    general_layout = new QVBoxLayout();
+
+    minesweeper_parent->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    minesweeper_parent->setLayout(general_layout);
+
+
     timer = new QLCDNumber();
     mines_left = new QLCDNumber();
+
+   general_layout->addWidget(minesweeper_block);
+
+
+    matrix = new QGridLayout();
+    minesweeper_block->setLayout(matrix);
+    minesweeper_block->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //minesweeper_block->setContentsMargins(10, 50, 10, 20);
+    matrix->setHorizontalSpacing(3);
+    matrix->setVerticalSpacing(6);
+
     populate_blocks();
-    //matrix = new QGridLayout(minesweeper_block, );
+    minesweeper_parent->show();
+    //minesweeper_block->show();
+
 }
 
 minesweeper_game::~minesweeper_game()
@@ -51,18 +75,25 @@ minesweeper_game::~minesweeper_game()
 }
 
 void minesweeper_game::populate_blocks() {
+    const QSize block_size = QSize(40, 40);
     std::size_t label=0;
-    for (std::size_t i=0; i < m_height ; ++i)
+    for (std::size_t i=0; i < m_height ; ++i) {
         for (std::size_t j=0; j< m_width; ++j) {
-            block_matrix[i][j] = new Block(this, label);
+            block_matrix[i][j] = new Block(minesweeper_block, label);
+            block_matrix[i][j] -> setFixedSize(block_size);
+            block_matrix[i][j] -> setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            matrix->addWidget(block_matrix[i][j], i, j);
             block_matrix[i][j]->show();
             ++label;
         }
+    }
+
+
 }
 
 void minesweeper_game::populate_mines_and_numbers() {
     std::size_t cells = m_height * m_width;
-    if (m_mines < cells) throw std::runtime_error("too many mines\n");
+    if (m_mines > cells) throw std::runtime_error("too many mines\n");
     std::size_t rando = 0;
     std::size_t m=0, i=0, j=0;
 

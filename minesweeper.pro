@@ -40,8 +40,7 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     instructions.ui \
-    readme.ui \
-    minesweeper_game.ui
+    readme.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

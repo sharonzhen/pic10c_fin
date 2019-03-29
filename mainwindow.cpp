@@ -43,7 +43,6 @@ void MainWindow::on_pushButton_begin_clicked()
     if (ui->checkBox_custom->isChecked())
         start_game = new minesweeper_game(this, spinbox_height, spinbox_width, spinbox_mines);
     hide();
-    start_game->show();
 }
 
 
