@@ -1,69 +1,8 @@
 #include "minesweeper_game.h"
 #include "ui_minesweeper_game.h"
 
-Block::Block(QWidget *parent, std::size_t label):
-    QPushButton(parent), mine(false), state(CLOSED), label(label), number(0)
-{
 
-
-
-}
-
-Block::~Block() {
-
-}
-
-void Block::right_click_handle() {
-   // std::cout<<"inside right_click_handle\n";
-    if(mine) {
-        //     QPixmap pixmap("image_path");
-        //     QIcon ButtonIcon(pixmap);
-        //     button->setIcon(ButtonIcon);
-        //     button->setIconSize(pixmap.rect().size());
-//        QPixmap map(mine_icon);
-//        QIcon someIcon(map);
-//        this->setIcon(someIcon);
-         this->setIcon(QIcon(mine_icon));
-    }
-    else {
-        switch(number) {
-        case 1:
-            this->setIcon(QIcon(a));
-            break;
-        case 2:
-            this->setIcon(QIcon(b));
-            break;
-        case 3:
-            this->setIcon(QIcon(c));
-            break;
-        case 4:
-            this->setIcon(QIcon(d));
-            break;
-        case 5:
-            this->setIcon(QIcon(e));
-            break;
-        case 6:
-            this->setIcon(QIcon(f));
-            break;
-        case 7:
-            this->setIcon(QIcon(g));
-            break;
-        case 8:
-            this->setIcon(QIcon(h));
-            break;
-        default:
-            QPixmap pixmap(25,25);
-            pixmap.fill(QColor("darkGray"));
-            QIcon colorIcon(pixmap);
-            this->setIcon(colorIcon);
-            break;
-        }
-    }
-this->setIconSize(QSize(25, 25));
-this->update();
-
-}
-
+class Block;
 
 minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::size_t width, std::size_t mines) :
     QDialog(parent), m_height(height), m_width(width), m_mines(mines), block_matrix(height, std::vector<Block*>(width, nullptr))
@@ -86,19 +25,12 @@ minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::siz
     restart_button = new QPushButton(minesweeper_parent);
     restart_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     restart_button->setFixedSize(button_size);
-    //restart_button->setIcon(QIcon("/Users/Sharn/minesweeper/emoj.png"));
-    //restart_button->setIconSize(button_size);
-
-
-    //general_layout = new QVBoxLayout();
-    //top_layout = new QHBoxLayout();
+    restart_button->setIcon(QIcon(emoji_icon));
 
     general_grid = new QGridLayout();
     matrix = new QGridLayout();
     matrix->setHorizontalSpacing(3);
     matrix->setVerticalSpacing(6);
-
-    //minesweeper_parent->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     general_grid->addWidget(timer, 0, 0);
     general_grid->addWidget(restart_button, 0, 1);
@@ -125,11 +57,15 @@ void minesweeper_game::populate_blocks() {
     std::size_t label=0;
     for (std::size_t i=0; i < m_height ; ++i) {
         for (std::size_t j=0; j< m_width; ++j) {
-            block_matrix[i][j] = new Block(minesweeper_block, label);
+            block_matrix[i][j] = new Block(this, label);
             block_matrix[i][j] -> setFixedSize(block_size);
             block_matrix[i][j] -> setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            QObject::connect(block_matrix[i][j], SIGNAL(released()), block_matrix[i][j], SLOT(right_click_handle()));
+            QObject::connect(block_matrix[i][j], SIGNAL(released()), block_matrix[i][j], SLOT(left_click_handle()));
+            QObject::connect(block_matrix[i][j], SIGNAL(right_clicked()), block_matrix[i][j], SLOT(right_click_handle()));
+
+
             matrix->addWidget(block_matrix[i][j], i, j);
+
             ++label;
         }
     }
@@ -167,6 +103,22 @@ void minesweeper_game::populate_mines_and_numbers() {
              }
          }
     }
+}
+
+void minesweeper_game::end_game() {
+    this->ended = true;
+    for (std::size_t i=0; i<m_height; ++i) {
+        for (std::size_t j=0; j<m_width; ++j) {
+            if (block_matrix[i][j]->mine)
+                block_matrix[i][j]->setIcon(QIcon(mine_icon));
+            restart_button->setIcon(QIcon(dead_icon));
+        }
+    }
+}
+
+
+bool minesweeper_game::is_game_active(){
+    return !ended;
 }
 
 

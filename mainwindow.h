@@ -7,7 +7,7 @@
 #include "instructions.h"
 #include "readme.h"
 #include "minesweeper_game.h"
-
+#include "block.h"
 
 namespace Ui {
 class MainWindow;

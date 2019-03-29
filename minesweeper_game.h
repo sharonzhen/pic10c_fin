@@ -18,53 +18,7 @@
 #include <QPainter>
 #include <QFont>
 #include <QString>
-
-#define CLOSED 1
-#define OPEN 0
-#define FLAGGED -1
-
-
-class Block : public QPushButton
-{
-    Q_OBJECT
-
-    const QString flag_icon = "/Users/Sharn/minesweeper/flag.png";
-    const QString mine_icon = "/Users/Sharn/minesweeper/bomb.png";
-
-    const QString a = "/Users/Sharn/minesweeper/a.png"; // for numbers 1-8
-    const QString b = "/Users/Sharn/minesweeper/b.png";
-    const QString c = "/Users/Sharn/minesweeper/c.png";
-    const QString d = "/Users/Sharn/minesweeper/d.png";
-    const QString e = "/Users/Sharn/minesweeper/e.png";
-    const QString f = "/Users/Sharn/minesweeper/f.png";
-    const QString g = "/Users/Sharn/minesweeper/g.png";
-    const QString h = "/Users/Sharn/minesweeper/h.png";
-//     const QString flag_icon = ":/flag.png";
-//     const QString mine_icon = ":/bomb.png";
-//     const QString a = ":/a.png"; // for numbers 1-8
-//     const QString b = ":/b.png";
-//     const QString c = ":/c.png";
-//     const QString d = ":/d.png";
-//     const QString e = ":/e.png";
-//     const QString f = ":/f.png";
-//     const QString g = ":/g.png";
-//     const QString h = ":/h.png";
-
-
-private slots:
-    void right_click_handle();
-
-
-
-public:
-    explicit Block(QWidget *parent = nullptr, std::size_t label=0);
-    ~Block();
-    bool mine;
-    int state; // { OPEN, CLOSED, FLAGGED }
-    std::size_t label;/* label calculated from an array[n][m] as array[i][j] = (i*m + j) */
-    std::size_t number; // to represent numbers 1-8, i.e. number of neighboring mines
-
-};
+#include "block.h"
 
 class minesweeper_game : public QDialog
 {
@@ -72,6 +26,10 @@ class minesweeper_game : public QDialog
     std::size_t m_height;
     std::size_t m_width;
     std::size_t m_mines;
+    const QString flag_icon = "/Users/Sharn/minesweeper/flag.png";
+    const QString mine_icon = "/Users/Sharn/minesweeper/bomb.png";
+    const QString emoji_icon = "/Users/Sharn/minesweeper/emoj.png";
+    const QString dead_icon = "/Users/Sharn/minesweeper/dead.png";
 
 public:
     explicit minesweeper_game(QWidget *parent = nullptr, std::size_t height=16, std::size_t width=16,
@@ -80,6 +38,8 @@ public:
     int calculate_label(std::size_t i, std::size_t j, std::size_t col_size) {return (i*col_size + j);} // to calculate label of each cell
     void populate_blocks();
     void populate_mines_and_numbers();
+    void end_game();
+    bool is_game_active();
 
 private slots:
 
@@ -92,7 +52,10 @@ private:
     QWidget *minesweeper_parent;
     QLCDNumber *timer;
     QLCDNumber *mines_left;
+
     QPushButton *restart_button;
+    bool ended = false;
+
 
 };
 

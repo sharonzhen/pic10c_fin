@@ -35,7 +35,7 @@ Also I got [icons] from wikipedia and google, and learned to set [fixed button s
 
 # ToDos
 
- - MY CODE WON'T RUN I promise I will get this done by Friday morning
+ - I tried implementing the right-click according to [stackoverflow] but it did not work... at least this version runs and has all the left-click components.
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
@@ -53,3 +53,4 @@ Also I got [icons] from wikipedia and google, and learned to set [fixed button s
    [fixed button size]: <https://stackoverflow.com/questions/47226092/how-to-set-qpushbutton-size-in-qgridlayout-in-qt>
    [square to round]: <https://stackoverflow.com/questions/12734319/change-rectangular-qt-button-to-round>
    [numbers]: <https://stackoverflow.com/questions/17087123/writing-a-text-in-a-qpixmap>
+   [stackoverflow]: <https://stackoverflow.com/questions/15658464/qt-rightclick-qpushbutton/15658863>

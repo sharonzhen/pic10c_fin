@@ -29,13 +29,15 @@ SOURCES += \
         mainwindow.cpp \
     instructions.cpp \
     readme.cpp \
-    minesweeper_game.cpp
+    minesweeper_game.cpp \
+    block.cpp
 
 HEADERS += \
         mainwindow.h \
     instructions.h \
     readme.h \
-    minesweeper_game.h
+    minesweeper_game.h \
+    block.h
 
 FORMS += \
         mainwindow.ui \
@@ -60,4 +62,4 @@ DISTFILES += \
     b.png \
     a.png \
     emoj.png \
-    mine.png
+    dead.png
