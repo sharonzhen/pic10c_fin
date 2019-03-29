@@ -28,17 +28,20 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     instructions.cpp \
-    readme.cpp
+    readme.cpp \
+    minesweeper_game.cpp
 
 HEADERS += \
         mainwindow.h \
     instructions.h \
-    readme.h
+    readme.h \
+    minesweeper_game.h
 
 FORMS += \
         mainwindow.ui \
     instructions.ui \
-    readme.ui
+    readme.ui \
+    minesweeper_game.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -46,4 +49,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    README.md
+    README.md \
+    bomb.png \
+    flag.png \
+    h.png \
+    g.png \
+    f.png \
+    e.png \
+    d.png \
+    c.png \
+    b.png \
+    a.png

@@ -26,12 +26,14 @@ The main menu page provides
     - on first press, generate mines, then according to this, generate numbers
     - there would be no board since I can just rely on the index of each block
 
+
 I feel like an intuitive implementation would be to create a 2D array of Board objects, but I'd like to see if this implementation works.
 
 # References
 
 I used [this video] to learn more about the UI for minesweeper, and various [documentations] to figure out how QGraphics* libraries work. This markdown README was written using the template provided by [dillinger.io]. Additionally, the rules are based on the rules defined on the [minesweeper website] that I play.
-
+I looked up the source code of [QPushButton] so that the mines can be buttons with the properties I want. I'd like to [maybe reimplement the abstract button class] but maybe I don't need to??
+Also I got [icons] from wikipedia and google.
 
 # ToDos
 
@@ -44,4 +46,9 @@ I used [this video] to learn more about the UI for minesweeper, and various [doc
    [documentations]: <https://doc.qt.io/>
    [dillinger.io]: <https://dillinger.io/>
    [minesweeper website]: <http://minesweeperonline.com/#150>
-
+   [buttons]: <https://doc.qt.io/qt-5/qabstractbutton.html>
+   [redefining abstract button members]: <https://doc.qt.io/qt-5/qabstractbutton-members.html>
+   [QPushButton]: <https://code.woboq.org/qt5/qtbase/src/widgets/widgets/qpushbutton.cpp.html>
+   [maybe reimplement the abstract button class]: <https://cep.xray.aps.anl.gov/software/qt4-x11-4.2.2-browser/d4/d5f/class_q_abstract_button.html>
+   [icons]: <https://commons.wikimedia.org/wiki/Category:Minesweeper>
+   [QIcon]: <https://code.woboq.org/qt5/qtbase/src/gui/image/qicon.cpp.html>
