@@ -58,4 +58,6 @@ DISTFILES += \
     d.png \
     c.png \
     b.png \
-    a.png
+    a.png \
+    emoj.png \
+    mine.png

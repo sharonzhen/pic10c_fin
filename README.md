@@ -1,4 +1,4 @@
-# Board-less Minesweeper with a bot
+# Minesweeper with a Bot (if I can finish the bot)
 so I can stop wasting time trying to beat my record manually...
 also, for PIC10C W'19 with Professor R. Salazar
 # Layout
@@ -17,17 +17,15 @@ The main menu page provides
 
     - there will be a timer that starts once the first block is opened
     - there will be a countdown of remaining mines based on the # flags
-    - there will be an option for bots
+    - there will be an option for bots <---- not sure I have time to finish that
     - create an object Block that is
         => opened or closed
         => has a mine or is empty or has a number (1 - 8)
-        => has pointers to all 8 blocks around it (and access to their states)
         => has an i,j index, as a member variable
     - on first press, generate mines, then according to this, generate numbers
-    - there would be no board since I can just rely on the index of each block
 
+My first attempt at implementing it without a 2D-array did not work so I implemented it with a 2D-array and then made it into a 2D vector but it does not work at the moment so I am trying to fix it...
 
-I feel like an intuitive implementation would be to create a 2D array of Board objects, but I'd like to see if this implementation works.
 
 # References
 
@@ -37,7 +35,7 @@ Also I got [icons] from wikipedia and google, and learned to set [fixed button s
 
 # ToDos
 
- - write the bot, so this is a bit incomplete. will *definitely* get this done by friday morning though.
+ - MY CODE WON'T RUN I promise I will get this done by Friday morning
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
@@ -53,3 +51,5 @@ Also I got [icons] from wikipedia and google, and learned to set [fixed button s
    [icons]: <https://commons.wikimedia.org/wiki/Category:Minesweeper>
    [QIcon]: <https://code.woboq.org/qt5/qtbase/src/gui/image/qicon.cpp.html>
    [fixed button size]: <https://stackoverflow.com/questions/47226092/how-to-set-qpushbutton-size-in-qgridlayout-in-qt>
+   [square to round]: <https://stackoverflow.com/questions/12734319/change-rectangular-qt-button-to-round>
+   [numbers]: <https://stackoverflow.com/questions/17087123/writing-a-text-in-a-qpixmap>

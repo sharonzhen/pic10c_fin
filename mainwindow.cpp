@@ -1,13 +1,27 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QtCore>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    /*
+     spinbox_mines = ui->spinBox_mines->value();
+     spinbox_height = ui->spinBox_height->value();
+     spinbox_width = ui->spinBox_width->value();
+     void set_spinbox_mines(int arg1){spinbox_mines=arg1;}
+     void set_spinbox_height(int arg1){spinbox_height=arg1;}
+     void set_spinbox_width(int arg1){spinbox_width=arg1;}
+     */
     ui->setupUi(this);
+
+    QObject::connect(ui->spinBox_mines,SIGNAL(valueChanged(int)),SLOT(set_spinbox_mines(int)));
+    QObject::connect(ui->spinBox_height,SIGNAL(valueChanged(int)),SLOT(set_spinbox_height(int)));
+    QObject::connect(ui->spinBox_width,SIGNAL(valueChanged(int)),SLOT(set_spinbox_width(int)));
+
 
 }
 
@@ -40,9 +54,12 @@ void MainWindow::on_pushButton_begin_clicked()
         start_game = new minesweeper_game(this, 16,16,40);
     if (ui->checkBox_hard->isChecked())
         start_game = new minesweeper_game(this, 16,30,99);
-    if (ui->checkBox_custom->isChecked())
+    if (ui->checkBox_custom->isChecked()) {
         start_game = new minesweeper_game(this, spinbox_height, spinbox_width, spinbox_mines);
+    }
     hide();
+    start_game->populate_blocks();
+    start_game->populate_mines_and_numbers();
 }
 
 
@@ -89,10 +106,6 @@ void MainWindow::on_checkBox_custom_stateChanged(int arg1)
         ui->checkBox_hard->setCheckState(Qt::Unchecked);
         ui->checkBox_medium->setCheckState(Qt::Unchecked);
     }
-
-     spinbox_mines = ui->spinBox_mines->value();
-     spinbox_height = ui->spinBox_height->value();
-     spinbox_width = ui->spinBox_width->value();
 
      if ((spinbox_height == 0) || (spinbox_width ==0)) throw std::runtime_error("height or width can't be zero \n");
 }

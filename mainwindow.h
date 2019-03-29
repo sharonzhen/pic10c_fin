@@ -16,13 +16,14 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    int spinbox_mines;
-    int spinbox_height;
-    int spinbox_width;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    int spinbox_mines;
+    int spinbox_height;
+    int spinbox_width;
 
 private slots:
     void on_pushButton_instructions_clicked();
@@ -39,6 +40,12 @@ private slots:
     void on_checkBox_hard_stateChanged(int arg1);
 
     void on_checkBox_custom_stateChanged(int arg1);
+
+    void set_spinbox_mines(int arg1){spinbox_mines=arg1;}
+
+    void set_spinbox_height(int arg1){spinbox_height=arg1;}
+
+    void set_spinbox_width(int arg1){spinbox_width=arg1;}
 
 private:
     Ui::MainWindow *ui;

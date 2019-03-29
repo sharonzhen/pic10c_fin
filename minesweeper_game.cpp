@@ -1,37 +1,66 @@
 #include "minesweeper_game.h"
 #include "ui_minesweeper_game.h"
 
-
-
-
 Block::Block(QWidget *parent, std::size_t label):
-    QPushButton(parent), mine(false), state(CLOSED), label(label), number('`')
+    QPushButton(parent), mine(false), state(CLOSED), label(label), number(0)
 {
-    QIcon flag_icon;
-    QIcon mine_icon;
 
-    // for numbers 1-8
-    /* void QIcon::addFile(const QString &fileName, const QSize &size, Mode mode, State state) */
 
-    flag_icon.addFile("flag.png", QSize(15,15));
-    mine_icon.addFile("flag.png", QSize(15,15));
-
-    a.addFile("a.png", QSize(15,15));
-    b.addFile("b.png", QSize(15,15));
-    c.addFile("c.png", QSize(15,15));
-    d.addFile("d.png", QSize(15,15));
-    e.addFile("e.png", QSize(15,15));
-    f.addFile("f.png", QSize(15,15));
-    g.addFile("g.png", QSize(15,15));
-    h.addFile("h.png", QSize(15,15));
-    // this->setIcon(QIcon("/Users/Sharn/minesweeper/bomb.png"));
-
-    this->setIconSize(QSize(30,30));
-    this->update();
 
 }
 
 Block::~Block() {
+
+}
+
+void Block::right_click_handle() {
+   // std::cout<<"inside right_click_handle\n";
+    if(mine) {
+        //     QPixmap pixmap("image_path");
+        //     QIcon ButtonIcon(pixmap);
+        //     button->setIcon(ButtonIcon);
+        //     button->setIconSize(pixmap.rect().size());
+//        QPixmap map(mine_icon);
+//        QIcon someIcon(map);
+//        this->setIcon(someIcon);
+         this->setIcon(QIcon(mine_icon));
+    }
+    else {
+        switch(number) {
+        case 1:
+            this->setIcon(QIcon(a));
+            break;
+        case 2:
+            this->setIcon(QIcon(b));
+            break;
+        case 3:
+            this->setIcon(QIcon(c));
+            break;
+        case 4:
+            this->setIcon(QIcon(d));
+            break;
+        case 5:
+            this->setIcon(QIcon(e));
+            break;
+        case 6:
+            this->setIcon(QIcon(f));
+            break;
+        case 7:
+            this->setIcon(QIcon(g));
+            break;
+        case 8:
+            this->setIcon(QIcon(h));
+            break;
+        default:
+            QPixmap pixmap(25,25);
+            pixmap.fill(QColor("darkGray"));
+            QIcon colorIcon(pixmap);
+            this->setIcon(colorIcon);
+            break;
+        }
+    }
+this->setIconSize(QSize(25, 25));
+this->update();
 
 }
 
@@ -42,36 +71,53 @@ minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::siz
     srand((unsigned)time(0));
     minesweeper_parent = new QWidget();
     minesweeper_block = new QWidget(minesweeper_parent);
-    general_layout = new QVBoxLayout();
 
-    minesweeper_parent->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    minesweeper_parent->setLayout(general_layout);
+    const QSize LCD_size = QSize(140, 60);
+    const QSize button_size = QSize(60, 60);
+
+    timer = new QLCDNumber(minesweeper_parent);
+    timer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    timer->setFixedSize(LCD_size);
+
+    mines_left = new QLCDNumber(minesweeper_parent);
+    mines_left->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    mines_left->setFixedSize(LCD_size);
+
+    restart_button = new QPushButton(minesweeper_parent);
+    restart_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    restart_button->setFixedSize(button_size);
+    //restart_button->setIcon(QIcon("/Users/Sharn/minesweeper/emoj.png"));
+    //restart_button->setIconSize(button_size);
 
 
-    timer = new QLCDNumber();
-    mines_left = new QLCDNumber();
+    //general_layout = new QVBoxLayout();
+    //top_layout = new QHBoxLayout();
 
-   general_layout->addWidget(minesweeper_block);
-
-
+    general_grid = new QGridLayout();
     matrix = new QGridLayout();
-    minesweeper_block->setLayout(matrix);
-    minesweeper_block->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    //minesweeper_block->setContentsMargins(10, 50, 10, 20);
     matrix->setHorizontalSpacing(3);
     matrix->setVerticalSpacing(6);
 
-    populate_blocks();
+    //minesweeper_parent->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    general_grid->addWidget(timer, 0, 0);
+    general_grid->addWidget(restart_button, 0, 1);
+    general_grid->addWidget(mines_left, 0, 2);
+    general_grid->addWidget(minesweeper_block, 1, 0, -1, -1);
+
+    minesweeper_block->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    minesweeper_block->setLayout(matrix);
+    minesweeper_parent->setLayout(general_grid);
     minesweeper_parent->show();
-    //minesweeper_block->show();
 
 }
 
 minesweeper_game::~minesweeper_game()
 {
-    delete minesweeper_block;
-    delete timer;
-    delete mines_left;
+    delete minesweeper_parent;
+    //delete minesweeper_block;
+    //delete timer;
+    //delete mines_left;
 }
 
 void minesweeper_game::populate_blocks() {
@@ -82,55 +128,46 @@ void minesweeper_game::populate_blocks() {
             block_matrix[i][j] = new Block(minesweeper_block, label);
             block_matrix[i][j] -> setFixedSize(block_size);
             block_matrix[i][j] -> setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            QObject::connect(block_matrix[i][j], SIGNAL(released()), block_matrix[i][j], SLOT(right_click_handle()));
             matrix->addWidget(block_matrix[i][j], i, j);
-            block_matrix[i][j]->show();
             ++label;
         }
     }
-
-
 }
 
 void minesweeper_game::populate_mines_and_numbers() {
     std::size_t cells = m_height * m_width;
     if (m_mines > cells) throw std::runtime_error("too many mines\n");
-    std::size_t rando = 0;
-    std::size_t m=0, i=0, j=0;
 
-    while (m<m_mines) { // generate m_mines unique numbers in the range of (0 - cells-1)
-        rando = rand() % cells; // label to place the mine
-        j = rando % m_width;    // to determine which column
-        i = rando / m_width;    // to determine which row
+    std::vector<std::size_t> rand_numbers;
+    for (std::size_t i=0; i<cells; ++i)
+        rand_numbers.push_back(i);
+    std::random_shuffle(rand_numbers.begin(), rand_numbers.end());
 
-        /* if mine already exists */
-        if (block_matrix[i][j]->mine) continue;
+    /* populate mines */
+    int row=0, col=0;
 
-        /* when adding a mine, increase the counters for the 8 adjacent blocks*/
-        block_matrix[i][j]->mine = true;
-        if (i < (m_height-1)) {                     // room to go down
-            block_matrix[i++][j]->number++;         // (1) [i++][j]
-            if (j < (m_width-1))
-                block_matrix[i++][j++]->number++;   // (5) [i++][j++]
-            if (j > 0)
-                block_matrix[i++][j--]->number++;   // (6) [i++][j--]
-        }
-        if (i > 0) {                                // room to go up
-            block_matrix[i--][j]->number++;         // (2) [i--][j]
-            if (j < (m_width-1))
-                block_matrix[i--][j++]->number++;   // (7) [i--][j++]
-            if (j > 0)
-                block_matrix [i--][j--]->number++;  // (8) [i--][j--]
-        }
+    for (std::size_t i=0; i<m_mines; ++i) {
+        row = rand_numbers[i] / m_width; // to determine which row
+        col = rand_numbers[i] % m_width; // to determine which column
 
-        if (j < (m_width-1))
-            block_matrix[i][j++]->number++;         // (3) [i][j++]
-        if (j>0)
-            block_matrix[i][j--]->number++;         // (4) [i][j--]
-        ++m;
+         block_matrix[row][col]->mine = true; // dont need to check anymore, since the numbers are unique
+
+         /* cases [j--][k--] [j][k--] [j++][k--]
+          *       [j--][k  ] [j][k  ] [j++][k  ]
+          *       [j--][k++] [j][k++] [j++][k++] increase the number of surrounding blocks
+          */
+         for (int j=-1; j<=1; ++j) {
+             for (int k=-1; k<=1; ++k) {
+                 if (j==0 && k==0) continue; // skip the current mine
+                 if (((row+j) >= 0) && ((row+j) < m_height) &&
+                         ((col+k) >= 0) && ((col+k) < m_width))
+                     block_matrix[row+j][col+k]->number++;
+             /* edge cases in case rows and columns go out of bound */
+             }
+         }
     }
-
 }
-
 
 
 /*
