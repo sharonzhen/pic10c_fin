@@ -1,6 +1,4 @@
-# Minesweeper with a Bot (if I can finish the bot)
-so I can stop wasting time trying to beat my record manually...
-also, for PIC10C W'19 with Professor R. Salazar
+# Minesweeper for PIC10C W'19 with Professor R. Salazar
 # Layout
 The main menu page provides
 
@@ -23,8 +21,10 @@ The main menu page provides
         => has a mine or is empty or has a number (1 - 8)
         => has an i,j index, as a member variable
     - on first press, generate mines, then according to this, generate numbers
+    - so far the left-click works accordingly, so if we click on a mine then all the mines are revealed
+        => if we click on an empty cell, it opens neighboring cells as well. 
 
-My first attempt at implementing it without a 2D-array did not work so I implemented it with a 2D-array and then made it into a 2D vector but it does not work at the moment so I am trying to fix it...
+My first attempt at implementing it without a 2D-array did not work so I implemented it with a 2D-array and then made it into a 2D vector.
 
 
 # References
@@ -35,7 +35,7 @@ Also I got [icons] from wikipedia and google, and learned to set [fixed button s
 
 # ToDos
 
- - I tried implementing the right-click according to [stackoverflow] but it did not work... at least this version runs and has all the left-click components.
+ - I tried implementing the right-click according to [stackoverflow]. It is not working yet. 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
