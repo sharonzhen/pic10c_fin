@@ -61,5 +61,5 @@ DISTFILES += \
     c.png \
     b.png \
     a.png \
-    emoj.png \
-    dead.png
+    dead.png \
+    emoj.jpg

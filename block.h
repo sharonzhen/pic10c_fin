@@ -14,7 +14,6 @@
 #include <iostream>
 #include <QLCDNumber>
 
-
 #define CLOSED 1
 #define OPEN 0
 #define FLAGGED -1
@@ -70,6 +69,8 @@ public:
     bool opened = false;
     bool flag = false;
     minesweeper_game *m_parent;
+    //QWidget *w_parent;
+    void open();
 
 };
 

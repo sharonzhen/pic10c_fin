@@ -1,31 +1,50 @@
 #include "minesweeper_game.h"
 #include "ui_minesweeper_game.h"
-
+#include "mainwindow.h"
+#include <QBoxLayout>
 
 class Block;
 
 minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::size_t width, std::size_t mines) :
-    QDialog(parent), m_height(height), m_width(width), m_mines(mines), block_matrix(height, std::vector<Block*>(width, nullptr))
+    QDialog(parent), m_width(width), m_mines(mines), m_height(height), ui(new Ui::minesweeper_game),
+    block_matrix(height, std::vector<Block*>(width, nullptr))
 {
+    m_parent = parent;
     srand((unsigned)time(0));
-    minesweeper_parent = new QWidget();
-    minesweeper_block = new QWidget(minesweeper_parent);
+    /*                  ui::minesweeper_game
+     * (general_grid)   timer, mines_left, restart_button
+     * (matrix grid)        minesweeper_block
+     */
+    /*                  ui::minesweeper_game
+     * (general_grid)   ^ this <--timer, mines_left, restart_button
+     *                  ^ minesweeper_block  <--each block
+     */
+//    minesweeper_parent = new QWidget(this);
+//    minesweeper_block = new QWidget(minesweeper_parent);
+    minesweeper_block = new QWidget(this); // block w/ matrix
+
 
     const QSize LCD_size = QSize(140, 60);
     const QSize button_size = QSize(60, 60);
 
-    timer = new QLCDNumber(minesweeper_parent);
+    //timer = new QLCDNumber(minesweeper_parent);
+    timer = new QLCDNumber(this);
     timer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     timer->setFixedSize(LCD_size);
+    timer->setDigitCount(3);
+    timer->display(999);
 
-    mines_left = new QLCDNumber(minesweeper_parent);
+//    mines_left = new QLCDNumber(minesweeper_parent);
+    mines_left = new QLCDNumber(this);
     mines_left->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mines_left->setFixedSize(LCD_size);
 
-    restart_button = new QPushButton(minesweeper_parent);
+//    restart_button = new QPushButton(minesweeper_parent);
+    restart_button = new QPushButton(this);
     restart_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     restart_button->setFixedSize(button_size);
     restart_button->setIcon(QIcon(emoji_icon));
+    restart_button->setIconSize(QSize(40,40));
 
     general_grid = new QGridLayout();
     matrix = new QGridLayout();
@@ -38,15 +57,22 @@ minesweeper_game::minesweeper_game(QWidget *parent, std::size_t height, std::siz
     general_grid->addWidget(minesweeper_block, 1, 0, -1, -1);
 
     minesweeper_block->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    minesweeper_block->setLayout(matrix);
-    minesweeper_parent->setLayout(general_grid);
-    minesweeper_parent->show();
+    //minesweeper_block->setLayout(matrix);
+
+    general_grid->addLayout(matrix,1,1);
+    this->setLayout(general_grid);
+//   minesweeper_block->setLayout(matrix);
+//    minesweeper_parent->setLayout(general_grid);
+    //minesweeper_parent->show();
+
+    ui->setupUi(this);
 
 }
 
 minesweeper_game::~minesweeper_game()
 {
-    delete minesweeper_parent;
+    delete ui;
+    //delete minesweeper_parent;
     //delete minesweeper_block;
     //delete timer;
     //delete mines_left;
@@ -63,12 +89,13 @@ void minesweeper_game::populate_blocks() {
             QObject::connect(block_matrix[i][j], SIGNAL(released()), block_matrix[i][j], SLOT(left_click_handle()));
             QObject::connect(block_matrix[i][j], SIGNAL(right_clicked()), block_matrix[i][j], SLOT(right_click_handle()));
 
-
             matrix->addWidget(block_matrix[i][j], i, j);
-
+            //block_matrix[i][j]->raise();
             ++label;
         }
     }
+
+    //this->setLayout(matrix);
 }
 
 void minesweeper_game::populate_mines_and_numbers() {
@@ -106,21 +133,34 @@ void minesweeper_game::populate_mines_and_numbers() {
 }
 
 void minesweeper_game::end_game() {
+    std::cout<<"inside end_game()\n";
     this->ended = true;
     for (std::size_t i=0; i<m_height; ++i) {
         for (std::size_t j=0; j<m_width; ++j) {
             if (block_matrix[i][j]->mine)
                 block_matrix[i][j]->setIcon(QIcon(mine_icon));
-            restart_button->setIcon(QIcon(dead_icon));
+        }
+    }
+    this->restart_button->setIcon(QIcon(dead_icon));
+    this->update();
+}
+
+
+
+void minesweeper_game::open_neighbors(int row, int col) {
+    for (int j = -1; j <= 1; ++j) {
+        for (int k = -1; k <= 1; ++k){
+            if (j == 0 && k==0) continue;
+            if (((row+j)>=0)
+                    && ((row+j) <m_height)
+                    && ((col+k) >= 0)
+                    && ((col+k) < m_width))
+            {
+                block_matrix[row+j][col+k]->open();
+            }
         }
     }
 }
-
-
-bool minesweeper_game::is_game_active(){
-    return !ended;
-}
-
 
 /*
 class Block

@@ -60,6 +60,7 @@ void MainWindow::on_pushButton_begin_clicked()
     hide();
     start_game->populate_blocks();
     start_game->populate_mines_and_numbers();
+    start_game->show();
 }
 
 

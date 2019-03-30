@@ -3,13 +3,9 @@
 
 #include <QDialog>
 #include <QLabel>
-#include <QWidget>
 #include <QLCDNumber>
 #include <QGridLayout>
 #include <QPushButton>
-#include <QIcon>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -18,7 +14,12 @@
 #include <QPainter>
 #include <QFont>
 #include <QString>
+#include <QGridLayout>
 #include "block.h"
+
+namespace Ui {
+class minesweeper_game;
+}
 
 class minesweeper_game : public QDialog
 {
@@ -30,6 +31,7 @@ class minesweeper_game : public QDialog
     const QString mine_icon = "/Users/Sharn/minesweeper/bomb.png";
     const QString emoji_icon = "/Users/Sharn/minesweeper/emoj.png";
     const QString dead_icon = "/Users/Sharn/minesweeper/dead.png";
+    bool ended = false;
 
 public:
     explicit minesweeper_game(QWidget *parent = nullptr, std::size_t height=16, std::size_t width=16,
@@ -39,22 +41,30 @@ public:
     void populate_blocks();
     void populate_mines_and_numbers();
     void end_game();
-    bool is_game_active();
+    void open_neighbors(int row, int col);
 
-private slots:
+
+    bool is_game_active() const {return !(this->ended);}
+    std::size_t get_height() const {return this->m_height;}
+    std::size_t get_width() const{return this->m_width;}
 
 
 private:
+    QWidget *m_parent;
+    Ui::minesweeper_game *ui;
+/*******************************/
     std::vector<std::vector<Block*>> block_matrix;
     QGridLayout *matrix;
     QGridLayout *general_grid;
+/*******************************/
     QWidget *minesweeper_block;
-    QWidget *minesweeper_parent;
+//    QWidget *minesweeper_parent;
+/*******************************/
     QLCDNumber *timer;
     QLCDNumber *mines_left;
-
+/*******************************/
     QPushButton *restart_button;
-    bool ended = false;
+
 
 
 };
