@@ -33,9 +33,6 @@ I used [this video] to learn more about the UI for minesweeper, and various [doc
 I looked up the source code of [QPushButton] so that the mines can be buttons with the properties I want. I'd like to [maybe reimplement the abstract button class] but maybe I don't need to??
 Also I got [icons] from wikipedia and google, and learned to set [fixed button size] from stackoverflow.
 
-# ToDos
-
- - I tried implementing the right-click according to [stackoverflow]. It is not working yet. 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
